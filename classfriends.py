@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 
 
-class WebcamTracer:
+class CameraTracer:
     def __init__(self, index):
         self.index = index
         self.num_cameras = 0
@@ -20,7 +20,7 @@ class WebcamTracer:
             index += 1
         return self.num_cameras
 if __name__ == "__main__":
-    webcam = WebcamTracer(0)  # Webcam 클래스의 인스턴스를 생성하고, index 값으로 0을 전달하여 초기화
+    webcam = CameraTracer(0)  # Webcam 클래스의 인스턴스를 생성하고, index 값으로 0을 전달하여 초기화
     num_cameras = webcam.count_connected_cameras()
     print(f"컴퓨터에 연결된 카메라 개수: {num_cameras}개")     
 
@@ -35,9 +35,6 @@ class CameraDesignate:
 
     def camera_input(self, inputed_cameras):
         self.inputed_camera = inputed_cameras
-    
-    def user_camera_input(self):
-        int(input("사용하고 싶은 카메라 개수를 입력하세요"))
         
     def compare_and_designate(self):
         if self.inputed_camera <= self.camera_number:
@@ -48,7 +45,7 @@ class CameraDesignate:
             print("오류오류오류오류!")
 
 if __name__ == "__main__":
-    webcam = WebcamTracer(0)  # WebcamTracer 클래스의 인스턴스를 생성하고, index 값으로 0을 전달하여 초기화
+    webcam = CameraTracer(0)  # WebcamTracer 클래스의 인스턴스를 생성하고, index 값으로 0을 전달하여 초기화
     num_cameras = webcam.count_connected_cameras()  
 
     serviceable_camera = CameraDesignate()
