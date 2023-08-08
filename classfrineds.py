@@ -2,7 +2,6 @@ import face_recognition
 import numpy as np
 import cv2
 
-
 class FaceRecognizer:
     def __init__(self):
         self.known_face_encodings = []
@@ -17,10 +16,7 @@ class FaceRecognizer:
             self.known_face_names.append(name)
 
     def recognize_faces(self, frame):
-        # Convert the frame to RGB (face_recognition library uses RGB)
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-        # Find all face locations using face_recognition library
         face_locations = face_recognition.face_locations(rgb_frame, model="hog")
         face_encodings = face_recognition.face_encodings(rgb_frame, face_locations)
 
@@ -68,12 +64,7 @@ class FacePredict:
     def __init__(self, user_input):
         self.tracer = CameraTracer(0)
         self.tracer.capture = cv2.VideoCapture(user_input - 1)
-
         self.recognizer = FaceRecognizer()
-        self.recognizer.load_known_faces([
-            ("KIM.jpg", "Min-Jae KIM"),
-            ("SON.jpg", "Heung-Min SOn")
-        ])
 
     def predict_faces(self):
         while True:
@@ -90,4 +81,17 @@ class FacePredict:
 
         self.tracer.capture.release()
         cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    cameratracer = CameraTracer(0)
+
+    num_camera = cameratracer.count_connected_cameras()
+    print(f"컴퓨터에 연결된 카메라 개수: {num_camera}개")
+
+    user_input = int(input("지정할 카메라를 입력하세요: "))
+    cameratracer.camera_input(user_input)
+    cameratracer.camera_designate()
+
+    facepredict = FacePredict(user_input)
+    facepredict.predict_faces()
 
